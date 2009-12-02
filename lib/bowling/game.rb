@@ -69,15 +69,8 @@ module Bowling
 			score = 0
 			cur = RollCursor.new(@rolls)
 			10.times do
-				if cur.strike?
-					score += cur.pins
-					score += cur.bonus
-				elsif cur.spare?
-					score += cur.pins
-					score += cur.bonus
-				else
-					score += cur.pins
-				end
+				score += cur.pins
+				score += cur.bonus
 				cur.next
 			end
 			score

@@ -23,20 +23,24 @@ module Bowling
 
 		def bonus
 			if self.strike?
-				self.two_rolls_from(@idx+1)
+				self.clone.next.two_rolls
 			elsif self.spare?
-				self.roll_at(@idx+2)
+				self.clone.next.roll
 			else
 				0
 			end
 		end
 
+		def score
+			self.pins + self.bonus
+		end
+
 		def roll
-			self.roll_at(@idx)
+			@rolls[@idx]
 		end
 
 		def two_rolls
-			self.two_rolls_from(@idx)
+			@rolls[@idx] + @rolls[@idx+1]
 		end
 
 		def next
@@ -45,14 +49,7 @@ module Bowling
 			else 
 				@idx += 2
 			end
-		end
-
-		def roll_at(idx)
-			@rolls[idx]
-		end
-
-		def two_rolls_from(idx)
-			@rolls[idx] + @rolls[idx+1]
+			self
 		end
 	end
 
@@ -69,8 +66,9 @@ module Bowling
 			score = 0
 			cur = RollCursor.new(@rolls)
 			10.times do
-				score += cur.pins
-				score += cur.bonus
+				score += cur.score
+#				score += cur.pins
+#				score += cur.bonus
 				cur.next
 			end
 			score

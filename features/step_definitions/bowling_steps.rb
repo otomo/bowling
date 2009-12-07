@@ -15,10 +15,14 @@ end
 	もし "5ピン倒す"
 end
 
-もし /^残りの投球(\d+)球がすべてガターである$/ do |roll_num|
+もし /^残りの投球(\d+)球がすべて(\d+)ピンである$/ do |roll_num, pins|
 	roll_num.to_i.times do
-		もし "0ピン倒す"
+		もし "#{pins}ピン倒す"
 	end
+end
+
+もし /^残りの投球(\d+)球がすべてガターである$/ do |roll_num|
+	もし "残りの投球#{roll_num}球がすべて0ピンである"
 end
 
 もし /^すべての投球が(\d+)ピンである$/ do |pins|
